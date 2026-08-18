@@ -46,9 +46,12 @@ On the tested device, these symptoms were caused by one or more of the USB initi
 
 | Component | Description | Status |
 |---|---|---|
-| `inkcut-usb-transport/` | Native pyusb/libusb transport plugin for Inkcut: CDC init, DTR/RTS keep-alive, auto USB reset, safe paced writes | In development — see tested-hardware table |
+| `inkcut-usb-transport/` | Native pyusb/libusb transport plugin for Inkcut: CDC init, DTR/RTS keep-alive, self-healing connect (auto USB reset + pipe probe before any cutting), partial-transfer-exact writes | Working on the tested device |
+| `inkcut-pdf-import/` | **Open PDF and Adobe Illustrator (.ai) files directly in Inkcut** — converted to cut paths on open (via poppler), with caching | Working on the tested device |
+| `inkcut-prefeed/` | **Material pre-feed**: slowly feeds the vinyl out to the job's full length and back before cutting, host-paced in small steps, so the roll never drags or slips mid-cut | Working on the tested device |
+| Device profiles | VEVOR KH-870 / KH-720 driver entries (DMPL-first, USB) + feed-past-cut workflow (each job ends past the cut + 15 mm, ready for the next) | Working on the tested device |
 | `plotter_usb_bridge.py` | Standalone FIFO → USB daemon (launchd): anything that can write a file can drive the cutter | Working on the tested device |
-| `patches/` | Small Inkcut fixes (stale-connection bug in the raw transport; DMPL resolution) pending upstream | In development |
+| `patches/` | Small Inkcut fixes (stale-connection bug in the raw transport; DMPL resolution; feed-settings inheritance) pending upstream | In development |
 | [docs/PROTOCOL.md](docs/PROTOCOL.md) | Full USB + DMPL protocol notes and evidence for this cutter family | Available |
 | [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Symptom → cause → fix | Available |
 
@@ -70,6 +73,7 @@ Upstream status: not yet submitted to Inkcut.
 - **Upstream to Inkcut**: bugfix PR (raw transport stale-connection) + the USB transport as a new connection type
 - **More cutters**: community compatibility matrix — the transport's VID/PID/endpoint/baud are configurable, so other rebrands and chips can be tested and reported via Issues
 - **Print-queue sharing**: a CUPS backend so *any* macOS app can print straight to the cutter as if it were a printer
+- **Measure media width by jogging**: the firmware answers no position queries (probed), but the host tracks every absolute move — jog the head to the foil edge and one click sets the material width from the tracked position
 - **Polished macOS app**: a signed Inkcut.app bundle with icon, so setup is drag-and-drop
 - **Linux support**: the transport is pyusb and should work on Linux with udev rules; documentation planned
 

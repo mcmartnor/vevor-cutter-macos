@@ -20,6 +20,10 @@ Symptom → likely cause → fix. All confirmed on a VEVOR KH-870 (`CH554_CDC`, 
 **Cause:** Buffer overflow + blind retry: a timed-out bulk transfer was re-sent even though the cutter had consumed part of it.
 **Fix:** Pace data at cutting speed; keep bulk writes small (≤64 B); never blindly retry a possibly-partial transfer.
 
+## "Wedged pipe" / stall right at job start, but the cutter seems fine
+**Cause:** The cutter is in **offline/origin-setting mode** on its front panel (e.g. you pressed offline to set the zero point and didn't confirm). In this mode it ACKs USB data into its buffer without executing — indistinguishable from a firmware wedge on the host side.
+**Fix:** Confirm/exit the panel mode so the cutter is online, then resend. (The transport probes the pipe before cutting, so this is caught before any vinyl is wasted.)
+
 ## Works after power-on, dies after sitting idle
 **Cause:** CH554 USB stack crashes when macOS suspends the idle port.
 **Fix:** Keep-alive traffic every ~15 s while connected (re-assert DTR/RTS). A USB port reset usually revives it without power-cycling.
