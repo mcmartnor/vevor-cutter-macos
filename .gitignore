@@ -1,0 +1,5 @@
+tests/import_test*
+tests/import_fresh.pdf
+tests/import_cache_test/
+tests/test_job.dmpl
+__pycache__/
