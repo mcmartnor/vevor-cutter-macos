@@ -3,3 +3,6 @@ tests/import_fresh.pdf
 tests/import_cache_test/
 tests/test_job.dmpl
 __pycache__/
+NEXT_SESSION.md
+agy-qa-*
+codex-qa-*
