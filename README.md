@@ -39,17 +39,19 @@ On the tested device, these symptoms were caused by one or more of the USB initi
 
 1. **A CDC serial port wearing a printer-class costume.** The firmware presents USB printer-class descriptors, but printer-class control requests STALL while CDC requests are accepted. The cutter buffers data without cutting until `SET_LINE_CODING` (9600 8N1) is sent and **DTR/RTS** are asserted via `SET_CONTROL_LINE_STATE`.
 2. **The CH554 USB stack crashes when the idle port suspends.** A keep-alive (re-assert DTR/RTS every 15 s) prevents it; a USB port reset usually revives a wedged device without a power cycle.
-3. **The native language is DMPL.** Init `;:H A L0 ECN U`, tool up/down `U`/`D`, comma delimiter, space terminator, `@` after the job, **0.025 mm/step** (1016 steps/inch). The HPGL mode half-works but wedged the firmware repeatedly in our testing.
-4. **The internal buffer is tiny.** Unpaced writes overflow it, and a timed-out-then-retried bulk transfer physically duplicates cuts. Data must be paced at cutting speed (Inkcut's device engine already does this).
+3. **The native language is DMPL.** Init `;:H A L0 EC1 U`, tool up/down `U`/`D`, comma delimiter, space terminator, **0.025 mm/step** (1016 steps/inch). The HPGL mode half-works but wedged the firmware repeatedly in our testing. The firmware ignores DMPL `V` (velocity) commands — all pacing must happen host-side.
+4. **The DMPL axes are transposed.** On this firmware the **first** coordinate drives the media feed rollers and the **second** the carriage — opposite of what Inkcut's device engine assumes. Compensating with Swap X/Y fixes the geometry but silently points Inkcut's feed logic (pre-feed, feed-past-cut, origin tracking) at the carriage. The transport ships a protocol-level `swap_axes` option (plus mirror) so the feed logic physically reaches the rollers.
+5. **The internal buffer is tiny, and USB NAK is the only flow control.** The whole ring buffer holds a few hundred moves; large jobs overflow it mid-stream. pyusb (libusb) raises a bulk-write timeout **only when zero bytes were transferred** — a partially accepted transfer returns a short count — so retrying a timed-out chunk at the same offset is duplicate-safe. The transport uses exactly that as flow control: a dedicated writer thread retries while the cutter chews through its buffer, aborts only after 90 s with no progress, and a drain barrier keeps the job (and disconnect) from completing while data is still queued.
 
 ## What's in this repository
 
 | Component | Description | Status |
 |---|---|---|
-| `inkcut-usb-transport/` | Native pyusb/libusb transport plugin for Inkcut: CDC init, DTR/RTS keep-alive, self-healing connect (auto USB reset + pipe probe before any cutting), partial-transfer-exact writes | Working on the tested device |
-| `inkcut-pdf-import/` | **Open PDF and Adobe Illustrator (.ai) files directly in Inkcut** — converted to cut paths on open (via poppler), with caching | Working on the tested device |
+| `inkcut-usb-transport/` | Native pyusb/libusb transport plugin for Inkcut: CDC init, DTR/RTS keep-alive, self-healing connect on a worker thread (auto USB reset + pipe probe before any cutting, GUI never freezes), queued writer thread with NAK-based flow control and duplicate-safe retries, drain barrier before job completion | Working on the tested device |
+| `inkcut-pdf-import/` | **Open PDF and Adobe Illustrator (.ai) files directly in Inkcut** — converted off the UI thread on open (via poppler), with caching, drag-and-drop, multi-page warning, and the original file name kept in the UI/history | Working on the tested device |
 | `inkcut-prefeed/` | **Material pre-feed**: slowly feeds the vinyl out to the job's full length and back before cutting, host-paced in small steps, so the roll never drags or slips mid-cut | Working on the tested device |
-| Device profiles | VEVOR KH-870 / KH-720 driver entries (DMPL-first, USB) + feed-past-cut workflow (each job ends past the cut + 15 mm, ready for the next) | Working on the tested device |
+| Device profiles | VEVOR KH-870 / KH-720 driver entries (DMPL-first, USB, correct cutting widths 78/63 cm) with the `swap_axes`/mirror setup for the transposed firmware + feed-past-cut workflow (each job ends past the cut + 15 mm, ready for the next) | Working on the tested device |
+| Inkcut UX patches | Graphic panel: editable **total layout size** when stepping up copies, Illustrator-style quick rotate buttons (90° left/right, 180°); app opens at a comfortable window size | Working on the tested device |
 | `plotter_usb_bridge.py` | Standalone FIFO → USB daemon (launchd): anything that can write a file can drive the cutter | Working on the tested device |
 | `patches/` | Small Inkcut fixes (stale-connection bug in the raw transport; DMPL resolution; feed-settings inheritance) pending upstream | In development |
 | [docs/PROTOCOL.md](docs/PROTOCOL.md) | Full USB + DMPL protocol notes and evidence for this cutter family | Available |
@@ -66,7 +68,7 @@ Upstream status: not yet submitted to Inkcut.
 
 | Model / rebrand | USB identity | macOS | CPU | Inkcut | Result |
 |---|---|---|---|---|---|
-| VEVOR KH-870 (D-type mainboard, 870 mm) | `0483:5750` / `CH554_CDC` | macOS 26.5 | Apple Silicon | 2.1.8 | Confirmed cutting via bridge (DMPL & HPGL) |
+| VEVOR KH-870 (D-type mainboard, 870 mm) | `0483:5750` / `CH554_CDC` | macOS 26.5 | Apple Silicon | 2.1.8 | Full workflow confirmed on vinyl via the native USB transport: PDF/AI import → pre-feed → cut with flow control → feed past cut, correct end position |
 
 ## Roadmap
 
