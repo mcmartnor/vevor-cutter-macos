@@ -53,7 +53,7 @@ On the tested device, these symptoms were caused by one or more of the USB initi
 | Device profiles | VEVOR KH-870 / KH-720 driver entries (DMPL-first, USB, correct cutting widths 78/63 cm) with the `swap_axes`/mirror setup for the transposed firmware + feed-past-cut workflow (each job ends past the cut + 15 mm, ready for the next) | Working on the tested device |
 | Inkcut UX patches | Graphic panel: editable **total layout size** when stepping up copies, Illustrator-style quick rotate buttons (90° left/right, 180°); app opens at a comfortable window size | Working on the tested device |
 | `plotter_usb_bridge.py` | Standalone FIFO → USB daemon (launchd): anything that can write a file can drive the cutter | Working on the tested device |
-| `patches/` | Small Inkcut fixes (stale-connection bug in the raw transport; DMPL resolution; feed-settings inheritance) pending upstream | In development |
+| `patches/` | Unified diffs against upstream Inkcut for everything not shipped as a standalone component: pre-feed, flow-control integration, PDF/AI import integration, VEVOR profiles/axes, UX additions, raw-transport stale-connection fix | Available |
 | [docs/PROTOCOL.md](docs/PROTOCOL.md) | Full USB + DMPL protocol notes and evidence for this cutter family | Available |
 | [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Symptom → cause → fix | Available |
 

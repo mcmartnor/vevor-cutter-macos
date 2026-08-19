@@ -1,0 +1,50 @@
+--- a/inkcut/ui/plugin.py
++++ b/inkcut/ui/plugin.py
+@@ -85,6 +85,7 @@
+         """
+         self.set_app_name()
+         self.set_window_icon()
++        self.set_window_size()
+         if sys.platform == 'darwin':
+             self.fix_menubar()
+         self.load_plugins()
+@@ -297,7 +298,39 @@
+             ui.window.proxy.widget.setWindowIcon(icon)
+         except Exception as e:
+             log.error('Failed to set window icon: {}'.format(e))
++
++    def set_window_size(self):
++        """ Open with a roomier window: double the default size hint,
++        capped to the available screen space. Runs on a timed_call so
++        the window has its initial layout size first.
++        """
++        try:
++            ui = self.workbench.get_plugin('enaml.workbench.ui')
++            widget = ui.window.proxy.widget
+ 
++            def resize():
++                try:
++                    from enaml.qt.QtWidgets import QApplication
++                    screen = QApplication.primaryScreen().availableGeometry()
++                    w = min(widget.width() * 2, screen.width())
++                    h = min(widget.height() * 2, screen.height())
++                    widget.resize(w, h)
++                    #: Keep the grown window on screen: clamp the
++                    #: position into the available area (menu bar/Dock)
++                    frame = widget.frameGeometry()
++                    x = max(screen.x(),
++                            min(frame.x(), screen.right() - frame.width() + 1))
++                    y = max(screen.y(),
++                            min(frame.y(), screen.bottom() - frame.height() + 1))
++                    if (x, y) != (frame.x(), frame.y()):
++                        widget.move(x, y)
++                except Exception as e:
++                    log.error('Failed to resize window: {}'.format(e))
++
++            timed_call(0, resize)
++        except Exception as e:
++            log.error('Failed to set window size: {}'.format(e))
++
+     def fix_menubar(self):
+         """ Disable native menu on OSX
+ 

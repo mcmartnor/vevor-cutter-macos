@@ -1,0 +1,41 @@
+--- a/inkcut/device/protocols/view.enaml
++++ b/inkcut/device/protocols/view.enaml
+@@ -11,6 +11,7 @@
+ @author: jrm
+ """
+ from enaml.core.api import Conditional
++import textwrap
+ from enaml.widgets.api import Container, Form, Label, ObjectCombo, SpinBox, MultilineField, CheckBox
+ from enamlx.widgets.api import DoubleSpinBox
+ from enaml.qt.QtWidgets import QApplication
+@@ -23,6 +24,16 @@
+     ObjectCombo:
+         items  = list(model.get_member('mode').items)
+         selected := model.mode
++    CheckBox:
++        text = QApplication.translate("protocols", "Swap axes (feed-first firmware)")
++        tool_tip = QApplication.translate("protocols", textwrap.dedent("""
++            Some firmwares (e.g. the Anhui-Anyu boards in VEVOR cutters)
++            expect the media-feed coordinate FIRST and the carriage
++            coordinate second, opposite of the usual convention. Enable
++            this so feed-to-end, pre-feed and origin tracking physically
++            reach the feed rollers on such cutters.
++            """).strip())
++        checked := model.swap_axes
+ 
+ 
+ enamldef GCodeConfigView(Container):
+@@ -94,10 +105,9 @@
+ 
+ enamldef HPGLConfigView(Container):
+     attr model
+-    CheckBox:
+-        checked := model.pad
++    Label:
+         text = QApplication.translate("protocols",
+                                       "Pad commands with line feed")
+     CheckBox:
+-        checked := model.separate_z_moves
+-        text = QApplication.translate("protocols", "Send pen up/down commands separately from move commands")
++        checked := model.pad
++        text = QApplication.translate("protocols", "Enable")
