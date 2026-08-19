@@ -1,8 +1,17 @@
-tests/import_test*
-tests/import_fresh.pdf
-tests/import_cache_test/
-tests/test_job.dmpl
-__pycache__/
+# ---- PRIVATE: method, working notes and Martin's test files ----
+# The public repo shares the CODE only. Everything about HOW we work
+# (handoff, QA reports, test suites, session notes) stays local.
 NEXT_SESSION.md
+HANDOFF*.md
 agy-qa-*
 codex-qa-*
+*-qa-round*
+tests/
+private/
+CLAUDE.md
+*.local.md
+
+# ---- generated / runtime ----
+__pycache__/
+*.pyc
+.DS_Store
