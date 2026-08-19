@@ -29,4 +29,6 @@ Vollständige technische Dokumentation und Status: [englische Hauptseite](README
 
 > **Hinweis:** Pre-Release — noch kein fertiger Installer. Repo beobachten („Watch") für die erste getestete Anleitung.
 
+⭐ Läuft dein Plotter jetzt? Ein Stern auf GitHub hilft anderen Mac-Nutzern, dieses Projekt zu finden.
+
 *Suchbegriffe: VEVOR Schneideplotter Mac, Schneideplotter macOS Treiber, VEVOR Plotter Software kostenlos, CH554_CDC, SignCut Alternative, Inkcut Anleitung deutsch, Secabo GoldCut JinKa Mac.*

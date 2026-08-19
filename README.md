@@ -8,6 +8,24 @@ English | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](READM
 
 No SignCut subscription, no Windows VM. This is a user-space libusb/pyusb transport — not a kernel extension, nothing to disable in macOS security settings.
 
+## Why this project
+
+| | SignCut Pro | This project |
+|---|---|---|
+| Price | Subscription | **Free forever (GPLv3)** |
+| Source | Closed | **Open — audit it, fix it, extend it** |
+| Cutting app | Vendor app | **[Inkcut](https://github.com/inkcut/inkcut)** — open source, cross-platform |
+| USB protocol documented | No public docs | **Fully reverse-engineered and published** ([docs/PROTOCOL.md](docs/PROTOCOL.md)) |
+
+What you get that nothing else on macOS offers for these cutters:
+
+- **It finishes big jobs.** NAK-based USB flow control with duplicate-safe retries — no more jobs that die at the last cut, no doubled letters, no ruined vinyl.
+- **It survives the firmware's quirks.** Keep-alive against the idle-crash, self-healing reconnect with a pipe probe *before* anything is cut, automatic recovery from a wedged USB stack.
+- **A real workflow, not just a driver.** Drop a PDF or Illustrator file straight into Inkcut, slow anti-slip pre-feed of the roll, every job ends 15 mm past the cut ready for the next one.
+- **Every finding documented.** The full USB + DMPL protocol notes are published so the community can support more cutters — nobody has to reverse-engineer this hardware again.
+
+⭐ **If this gets your cutter working, star the repo** — it is how other stranded Mac owners find it.
+
 > **Match your device before installing**
 >
 > Run in Terminal:
@@ -92,3 +110,5 @@ Research that helped map the terrain: [zi3.dev on the KW-780A](https://zi3.dev/v
 ## Support and contributing
 
 Open a GitHub issue and include: exact cutter brand/model, USB vendor/product ID and product string, macOS version and CPU (Apple Silicon/Intel), Inkcut/Python versions, and relevant logs.
+
+If this project saved you a SignCut subscription or a Windows VM, **a GitHub star helps more Mac owners find it** — and compatibility reports (working or not) directly grow the tested-hardware table.

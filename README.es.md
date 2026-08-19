@@ -18,4 +18,6 @@ Documentación completa (en inglés): [README.md](README.md) · [Protocolo](docs
 
 > **Pre-release** — todavía no hay instalador final. Marca "Watch" en el repositorio para recibir avisos.
 
+⭐ ¿Tu plóter ya funciona? Dale una estrella al repositorio: ayuda a otros usuarios de Mac a encontrarlo.
+
 *Palabras clave: cortadora de vinilo VEVOR Mac, plotter de corte macOS driver, VEVOR no detectada Mac, alternativa SignCut gratis, Inkcut VEVOR.*

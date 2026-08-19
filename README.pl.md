@@ -18,4 +18,6 @@ Pełna dokumentacja (po angielsku): [README.md](README.md) · [Protokół](docs/
 
 > **Wersja wstępna** — nie ma jeszcze gotowego instalatora. Kliknij „Watch", aby dostać powiadomienie.
 
+⭐ Ploter działa? Zostaw gwiazdkę — pomoże to innym użytkownikom Maca znaleźć ten projekt.
+
 *Słowa kluczowe: ploter tnący VEVOR Mac, ploter VEVOR macOS sterownik, VEVOR nie wykryty Mac, darmowa alternatywa SignCut, Inkcut VEVOR.*

@@ -18,4 +18,6 @@ Full dokumentasjon (engelsk): [README.md](README.md) · [Protokoll](docs/PROTOCO
 
 > **Tidlig versjon** — ferdig installasjonsveiledning kommer. Trykk «Watch» på repoet for varsel.
 
+⭐ Fikk du kutteren i gang? Gi repoet en stjerne — det hjelper andre Mac-brukere å finne det.
+
 *Søkeord: vinylkutter VEVOR Mac, skjæreplotter macOS, VEVOR ikke funnet Mac, gratis SignCut-alternativ, Inkcut VEVOR, folieskjærer Mac.*

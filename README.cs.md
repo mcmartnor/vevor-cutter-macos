@@ -18,4 +18,6 @@ Kompletní dokumentace (anglicky): [README.md](README.md) · [Protokol](docs/PRO
 
 > **Předběžná verze** — instalátor zatím není hotový. Sledujte repozitář („Watch") pro upozornění.
 
+⭐ Řezačka už funguje? Dejte repozitáři hvězdičku — pomůže to ostatním uživatelům Maců ho najít.
+
 *Klíčová slova: řezací plotr VEVOR Mac, plotr VEVOR macOS ovladač, VEVOR nedetekován Mac, zdarma alternativa SignCut, Inkcut VEVOR.*

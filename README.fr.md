@@ -18,4 +18,6 @@ Documentation complète (en anglais) : [README.md](README.md) · [Protocole](doc
 
 > **Pré-version** — pas encore d'installateur finalisé. Cliquez sur « Watch » pour être averti.
 
+⭐ Votre découpeur fonctionne ? Une étoile sur GitHub aide d'autres utilisateurs Mac à trouver ce projet.
+
 *Mots-clés : traceur de découpe VEVOR Mac, plotter de découpe vinyle macOS, VEVOR non détecté Mac, alternative SignCut gratuite, Inkcut VEVOR.*
